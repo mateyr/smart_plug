@@ -1,0 +1,297 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uso de Energía</title>
+    {% tailwind_css %}
+  </head>
+  <body class="bg-gray-100 p-4">
+    <div
+      class="flex flex-col gap-4 sm:flex-row bg-white rounded-lg shadow-lg p-3 space-y-4 sm:space-y-0"
+    >
+      <!-- Información General -->
+      <div class="flex flex-col w-full sm:w-1/3 p-4 rounded-lg shadow-inner">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700">
+          Información General
+        </h2>
+        <div class="flex flex-col gap-4">
+          <button
+            class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600"
+          >
+            Encender
+          </button>
+          <button
+            class="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
+          >
+            Apagar
+          </button>
+        </div>
+      </div>
+      <div class="w-full">
+        <!--Costo-->
+        <div class="w-full mb-4 bg-white rounded-lg shadow-lg p-3">
+          <div class="mb-5">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-700">Costo</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <!-- Hoy -->
+              <div
+                class="bg-yellow-50 border border-yellow-300 p-4 rounded-lg text-center"
+              >
+                <h3 class="font-semibold text-lg mb-2 text-yellow-700">Hoy</h3>
+                <p
+                  id="today_energy_cost"
+                  ,
+                  class="text-2xl font-bold text-yellow-600"
+                ></p>
+              </div>
+              <!-- Pasados 7 días -->
+              <div
+                class="bg-yellow-50 border border-yellow-300 p-4 rounded-lg text-center"
+              >
+                <h3 class="font-semibold text-lg mb-2 text-yellow-700">
+                  Pasados 7 días
+                </h3>
+                <p
+                  id="seven_day_energy_cost"
+                  ,
+                  class="text-2xl font-bold text-yellow-600"
+                ></p>
+              </div>
+              <!-- Últimos 30 días -->
+              <div
+                class="bg-yellow-50 border border-yellow-300 p-4 rounded-lg text-center"
+              >
+                <h3 class="font-semibold text-lg mb-2 text-yellow-700">
+                  Últimos 30 días
+                </h3>
+                <p
+                  id="thirty_day_energy_cost"
+                  ,
+                  class="text-2xl font-bold text-yellow-600"
+                ></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Uso de Energía -->
+        <div class="w-full mb-4 bg-white rounded-lg shadow-lg p-3">
+          <div class="mb-5">
+            <h2 class="text-2xl font-bold mb-4 text-blue-700">
+              Uso de Energía
+            </h2>
+            <div
+              class="grid grid-cols-1 text-center sm:text-left sm:grid-cols-3 gap-4"
+            >
+              <!-- Hoy -->
+              <div class="border border-blue-500 p-4 rounded-lg bg-blue-50">
+                <h3 class="font-semibold text-lg mb-2 text-blue-700">Hoy</h3>
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <p class="text-sm text-gray-600">Poder actual</p>
+                    <p
+                      id="current-consumption"
+                      ,
+                      class="text-xl font-semibold text-blue-700"
+                    ></p>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-600">Consumo total</p>
+                    <p
+                      id="total_consumption"
+                      ,
+                      class="text-xl font-semibold text-blue-700"
+                    ></p>
+                  </div>
+                </div>
+              </div>
+              <!-- Pasados 7 días -->
+              <div class="border border-blue-500 p-4 rounded-lg bg-blue-50">
+                <h3 class="font-semibold text-lg mb-2 text-blue-700">
+                  Pasados 7 días
+                </h3>
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <p class="text-sm text-gray-600">Promedio diario</p>
+                    <p
+                      id="average_seven_day_consumption"
+                      ,
+                      class="text-xl font-semibold text-blue-700"
+                    ></p>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-600">Consumo total</p>
+                    <p
+                      id="total_seven_day_consumption"
+                      ,
+                      class="text-xl font-semibold text-blue-700"
+                    ></p>
+                  </div>
+                </div>
+              </div>
+              <!-- Últimos 30 días -->
+              <div class="border border-blue-500 p-4 rounded-lg bg-blue-50">
+                <h3 class="font-semibold text-lg mb-2 text-blue-700">
+                  Últimos 30 días
+                </h3>
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <p class="text-sm text-gray-600">Promedio diario</p>
+                    <p
+                      id="average_thirty_day_consumption"
+                      ,
+                      class="text-xl font-semibold text-blue-700"
+                    ></p>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-600">Consumo total</p>
+                    <p
+                      id="total_thirty_day_consumption"
+                      ,
+                      class="text-xl font-semibold text-blue-700"
+                    ></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Tiempo de Ejecucion-->
+        <div class="w-full bg-white rounded-lg shadow-lg p-3">
+          <div class="mb-5">
+            <h2 class="text-2xl font-bold mb-4 text-green-700">
+              Tiempo de Ejecucion
+            </h2>
+            <div
+              class="grid grid-cols-1 text-center sm:text-left sm:grid-cols-3 gap-4"
+            >
+              <!-- Hoy -->
+              <div class="border border-green-500 p-4 rounded-lg bg-green-50">
+                <h3 class="font-semibold text-lg mb-2 text-green-700">Hoy</h3>
+                <div class="grid grid-cols-3 gap-2">
+                  <div>
+                    <p class="text-sm text-gray-600">Poder actual</p>
+                    <p class="text-xl font-semibold text-green-700">13.3 W</p>
+                  </div>
+                  <div class="col-span-2">
+                    <p class="text-sm text-gray-600">
+                      Tiempo de ejecución total
+                    </p>
+                    <p
+                      id="usage_today"
+                      ,
+                      class="text-xl font-semibold text-green-700"
+                    ></p>
+                  </div>
+                </div>
+              </div>
+              <!-- Pasados 7 días -->
+              <div class="border border-green-500 p-4 rounded-lg bg-green-50">
+                <h3 class="font-semibold text-lg mb-2 text-green-700">
+                  Pasados 7 días
+                </h3>
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <p class="text-sm text-gray-600">Promedio diario</p>
+                    <p class="text-xl font-semibold text-green-700">0.00 kWh</p>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-600">Consumo total</p>
+                    <p class="text-xl font-semibold text-green-700">0.03 kWh</p>
+                  </div>
+                </div>
+              </div>
+              <!-- Últimos 30 días -->
+              <div class="border border-green-500 p-4 rounded-lg bg-green-50">
+                <h3 class="font-semibold text-lg mb-2 text-green-700">
+                  Últimos 30 días
+                </h3>
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <p class="text-sm text-gray-600">Promedio diario</p>
+                    <p class="text-xl font-semibold text-green-700">0.00 kWh</p>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-600">Consumo total</p>
+                    <p class="text-xl font-semibold text-green-700">0.03 kWh</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const todayEnergyCosto = document.querySelector("#today_energy_cost");
+
+        const sevenDayEnergyCost = document.querySelector(
+          "#seven_day_energy_cost"
+        );
+
+        const thirtyDayEnergyCost = document.querySelector(
+          "#thirty_day_energy_cost"
+        );
+
+        const consumptionElement = document.getElementById(
+          "current-consumption"
+        );
+
+        const totalConsumption = document.querySelector("#total_consumption");
+
+        const averageSevenDayConsumption = document.querySelector(
+          "#average_seven_day_consumption"
+        );
+        const totalSevenDayConsumption = document.querySelector(
+          "#total_seven_day_consumption"
+        );
+
+        const averageThirtyDayConsumption = document.querySelector(
+          "#average_thirty_day_consumption"
+        );
+        const totalThirtyDayConsumption = document.querySelector(
+          "#total_thirty_day_consumption"
+        );
+        const usageToday = document.querySelector("#usage_today");
+
+        const socket = new WebSocket(
+          "ws://" + window.location.host + "/ws/plug/"
+        );
+
+        socket.onmessage = function (e) {
+          const data = JSON.parse(e.data);
+
+          // Energy Cost
+
+          todayEnergyCosto.textContent = "C$ " + data.today_energy_cost;
+          sevenDayEnergyCost.textContent = "C$ " + data.seven_day_energy_cost;
+          thirtyDayEnergyCost.textContent = "C$ " + data.thirty_day_energy_cost;
+
+          // Energy Usage
+          consumptionElement.textContent = data.current_consumption + " W";
+          totalConsumption.textContent = data.total_consumption + " kWh";
+
+          averageSevenDayConsumption.textContent =
+            data.average_seven_day_consumption + " kWh";
+          totalSevenDayConsumption.textContent =
+            data.total_seven_day_consumption + " kWh";
+
+          averageThirtyDayConsumption.textContent =
+            data.average_thirty_day_consumption + " kWh";
+          totalThirtyDayConsumption.textContent =
+            data.total_thirty_day_consumption + " kWh";
+
+          // Execution time
+          usageToday.textContent = data.usage_today + " horas";
+        };
+
+        // socket.onclose = function (e) {
+        //   console.error("WebSocket closed unexpectedly");
+        // };
+      });
+    </script>
+  </body>
+</html>
