@@ -7,7 +7,7 @@ class PlugController():
 
     def __init__(self):
         # plug = self.discover_plugs(plug_name)
-        self.plug = SmartPlug("192.168.1.27")
+        self.plug = SmartPlug("192.168.1.31")
 
     # def discover_plugs(self):
     #     # plug = []
@@ -45,27 +45,9 @@ class PlugController():
         await self.update_plug()
         return round(self.plug.emeter_today, 2)
 
-    # TODO: We should create general methods for total and average
-    async def plug_average_seven_day_consumption(self):
-        total_seven_day_consumption = await self.plug_total_seven_day_consumption()
-        average_seven_day_consumption = total_seven_day_consumption / 7
-        return round(average_seven_day_consumption, 2)
-
-    async def plug_total_seven_day_consumption(self):
+    async def plug_total_consumption(self, start_date: datetime, end_date: datetime):
         await self.update_plug()
-        end_date = datetime.now() - timedelta(days=1)
-        total_consumption = await self.plug.get_emeter_total_consumption(start_date=end_date - timedelta(days=7), end_date=end_date)
-        return round(total_consumption, 2)
-
-    async def plug_average_thirty_day_consumption(self):
-        total_thirty_day_consumption = await self.plug_total_thirty_day_consumption()
-        average_thirty_day_consumption = total_thirty_day_consumption / 30
-        return round(average_thirty_day_consumption, 2)
-
-    async def plug_total_thirty_day_consumption(self):
-        await self.update_plug()
-        end_date = datetime.now() - timedelta(days=1)
-        total_consumption = await self.plug.get_emeter_total_consumption(start_date=end_date - timedelta(days=30), end_date=end_date)
+        total_consumption = await self.plug.get_emeter_total_consumption(start_date=start_date, end_date=end_date)
         return round(total_consumption, 2)
 
     async def plug_usage_today(self):
