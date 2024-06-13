@@ -47,11 +47,36 @@ class PlugController():
 
     async def plug_total_consumption(self, start_date: datetime, end_date: datetime):
         await self.update_plug()
-        total_consumption = await self.plug.get_emeter_total_consumption(start_date=start_date, end_date=end_date)
+
+        total_consumption = 0
+        current_date = start_date
+        while current_date <= end_date:
+            raw_data = await self.plug.get_emeter_daily(year=current_date.year, month=current_date.month)
+            data = raw_data.get(current_date.day)
+            if data is not None:
+                total_consumption += data
+
+            current_date += timedelta(days=1)
         return round(total_consumption, 2)
 
+    # Execution time
     async def plug_usage_today(self):
         await self.update_plug()
         usage = self.plug.modules["usage"]
         usage_today = usage.usage_today / 60
         return round(usage_today, 2)
+
+    async def plug_total_usage(self, start_date: datetime, end_date: datetime):
+        await self.update_plug()
+        usage = self.plug.modules["usage"]
+        total_usage = 0
+        current_date = start_date
+        while current_date <= end_date:
+            raw_data = await usage.get_daystat(year=current_date.year, month=current_date.month)
+            data = raw_data.get(current_date.day)
+            if data is not None:
+                total_usage += data
+
+            current_date += timedelta(days=1)
+        total_usage = total_usage / 60
+        return round(total_usage, 2)

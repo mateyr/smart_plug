@@ -17,16 +17,16 @@
           Información General
         </h2>
         <div class="flex flex-col gap-4">
-          <button
-            class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600"
+          <a
+            href="on"
+            class="bg-green-500 text-white text-center px-4 py-2 rounded-lg shadow hover:bg-green-600"
+            >Encender</a
           >
-            Encender
-          </button>
-          <button
-            class="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
+          <a
+            href="off"
+            class="bg-red-500 text-white text-center px-4 py-2 rounded-lg shadow hover:bg-red-600"
+            >Apagar</a
           >
-            Apagar
-          </button>
         </div>
       </div>
       <div class="w-full">
@@ -169,17 +169,21 @@
               <!-- Hoy -->
               <div class="border border-green-500 p-4 rounded-lg bg-green-50">
                 <h3 class="font-semibold text-lg mb-2 text-green-700">Hoy</h3>
-                <div class="grid grid-cols-3 gap-2">
-                  <div>
+                <div class="grid grid-cols-3 gap-3">
+                  <div class="col-span-1">
                     <p class="text-sm text-gray-600">Poder actual</p>
-                    <p class="text-xl font-semibold text-green-700">13.3 W</p>
+                    <p
+                      id="current_usage"
+                      ,
+                      class="text-xl font-semibold text-green-700"
+                    ></p>
                   </div>
                   <div class="col-span-2">
                     <p class="text-sm text-gray-600">
                       Tiempo de ejecución total
                     </p>
                     <p
-                      id="usage_today"
+                      id="total_usage_today"
                       ,
                       class="text-xl font-semibold text-green-700"
                     ></p>
@@ -194,11 +198,19 @@
                 <div class="grid grid-cols-2 gap-2">
                   <div>
                     <p class="text-sm text-gray-600">Promedio diario</p>
-                    <p class="text-xl font-semibold text-green-700">0.00 kWh</p>
+                    <p
+                      id="average_seven_day_usage"
+                      ,
+                      class="text-xl font-semibold text-green-700"
+                    ></p>
                   </div>
                   <div>
                     <p class="text-sm text-gray-600">Consumo total</p>
-                    <p class="text-xl font-semibold text-green-700">0.03 kWh</p>
+                    <p
+                      id="total_seven_day_usage"
+                      ,
+                      class="text-xl font-semibold text-green-700"
+                    ></p>
                   </div>
                 </div>
               </div>
@@ -210,11 +222,19 @@
                 <div class="grid grid-cols-2 gap-2">
                   <div>
                     <p class="text-sm text-gray-600">Promedio diario</p>
-                    <p class="text-xl font-semibold text-green-700">0.00 kWh</p>
+                    <p
+                      id="average_thirty_day_usage"
+                      ,
+                      class="text-xl font-semibold text-green-700"
+                    ></p>
                   </div>
                   <div>
                     <p class="text-sm text-gray-600">Consumo total</p>
-                    <p class="text-xl font-semibold text-green-700">0.03 kWh</p>
+                    <p
+                      id="total_thirty_day_usage"
+                      ,
+                      class="text-xl font-semibold text-green-700"
+                    ></p>
                   </div>
                 </div>
               </div>
@@ -255,7 +275,26 @@
         const totalThirtyDayConsumption = document.querySelector(
           "#total_thirty_day_consumption"
         );
-        const usageToday = document.querySelector("#usage_today");
+
+        const currentUsage = document.querySelector("#current_usage");
+
+        const usageToday = document.querySelector("#total_usage_today");
+
+        const averageThirtyDayUsage = document.querySelector(
+          "#average_thirty_day_usage"
+        );
+
+        const totalSevenDayUsage = document.querySelector(
+          "#total_seven_day_usage"
+        );
+
+        const averageSevenDayUsage = document.querySelector(
+          "#average_seven_day_usage"
+        );
+
+        const totalThirtyDayUsage = document.querySelector(
+          "#total_thirty_day_usage"
+        );
 
         const socket = new WebSocket(
           "ws://" + window.location.host + "/ws/plug/"
@@ -285,7 +324,16 @@
             data.total_thirty_day_consumption + " kWh";
 
           // Execution time
-          usageToday.textContent = data.usage_today + " horas";
+          currentUsage.textContent = data.current_usage + " horas";
+          usageToday.textContent = data.total_usage_today + " horas";
+          totalSevenDayUsage.textContent =
+            data.total_seven_day_usage + " horas";
+          averageSevenDayUsage.textContent =
+            data.average_seven_day_usage + " horas";
+          totalThirtyDayUsage.textContent =
+            data.total_thirty_day_usage + " horas";
+          averageThirtyDayUsage.textContent =
+            data.average_thirty_day_usage + " horas";
         };
 
         // socket.onclose = function (e) {

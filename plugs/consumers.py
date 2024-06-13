@@ -28,6 +28,9 @@ class PlugConsumer(AsyncWebsocketConsumer):
             total_seven_day_consumption = await self.plug_controller.plug_total_consumption(start_date=end_date - timedelta(days=7), end_date=end_date)
             total_thirty_day_consumption = await self.plug_controller.plug_total_consumption(start_date=end_date - timedelta(days=30), end_date=end_date)
 
+            total_seven_day_usage = await self.plug_controller.plug_total_usage(start_date=end_date - timedelta(days=7), end_date=end_date)
+            total_thirty_day_usage = await self.plug_controller.plug_total_usage(start_date=end_date - timedelta(days=30), end_date=end_date)
+
             data = {
                 'today_energy_cost': self.plug_controller.energy_cost(emeter_today),
                 'seven_day_energy_cost': self.plug_controller.energy_cost(total_seven_day_consumption),
@@ -38,7 +41,12 @@ class PlugConsumer(AsyncWebsocketConsumer):
                 'total_seven_day_consumption': total_seven_day_consumption,
                 'average_thirty_day_consumption': round((total_thirty_day_consumption / 30), 2),
                 'total_thirty_day_consumption': total_thirty_day_consumption,
-                'usage_today': await self.plug_controller.plug_usage_today()
+                'current_usage': await self.plug_controller.plug_usage_today(),
+                'total_usage_today': await self.plug_controller.plug_usage_today(),
+                'average_seven_day_usage': round((total_seven_day_usage / 7), 2),
+                'total_seven_day_usage': total_seven_day_usage,
+                'average_thirty_day_usage': round((total_thirty_day_usage / 30), 2),
+                'total_thirty_day_usage': round(total_thirty_day_usage, 1)
             }
             await self.send(text_data=json.dumps(data))
             await asyncio.sleep(3)
