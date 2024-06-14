@@ -9,4 +9,5 @@ urlpatterns = [
     path("", views.controls, name="controls"),
     path("off", views.off, name="off"),
     path("on", views.on, name="on"),
+    path("emeter_monthly", views.emeter_monthly, name="emeter_monthly"),
 ]

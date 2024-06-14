@@ -5,7 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Uso de Energía</title>
-    {% tailwind_css %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% tailwind_css %} {% load static %}
   </head>
   <body class="bg-gray-100 p-4">
     <div
@@ -17,16 +18,35 @@
           Información General
         </h2>
         <div class="flex flex-col gap-4">
-          <a
-            href="on"
-            class="bg-green-500 text-white text-center px-4 py-2 rounded-lg shadow hover:bg-green-600"
-            >Encender</a
-          >
-          <a
-            href="off"
-            class="bg-red-500 text-white text-center px-4 py-2 rounded-lg shadow hover:bg-red-600"
-            >Apagar</a
-          >
+          <div class="bg-gray-100 p-4 rounded-lg shadow">
+            <p>
+              <strong>Nombre:</strong>
+              <span id="device-name">Dispositivo 1</span>
+            </p>
+            <p>
+              <strong>Device Time:</strong>
+              <span id="device-time">2024-06-13 10:00:00</span>
+            </p>
+            <p>
+              <strong>Modelo:</strong> <span id="device-model">Modelo X</span>
+            </p>
+            <p>
+              <strong>Hardware Version:</strong>
+              <span id="hardware-version">v1.0</span>
+            </p>
+          </div>
+          <div class="flex flex-row gap-4 mt-4">
+            <a
+              href="on"
+              class="bg-green-500 text-white text-center px-4 py-2 rounded-lg shadow hover:bg-green-600 flex-1"
+              >Encender</a
+            >
+            <a
+              href="off"
+              class="bg-red-500 text-white text-center px-4 py-2 rounded-lg shadow hover:bg-red-600 flex-1"
+              >Apagar</a
+            >
+          </div>
         </div>
       </div>
       <div class="w-full">
@@ -158,13 +178,13 @@
           </div>
         </div>
         <!--Tiempo de Ejecucion-->
-        <div class="w-full bg-white rounded-lg shadow-lg p-3">
+        <div class="w-full mb-4 bg-white rounded-lg shadow-lg p-3">
           <div class="mb-5">
             <h2 class="text-2xl font-bold mb-4 text-green-700">
               Tiempo de Ejecucion
             </h2>
             <div
-              class="grid grid-cols-1 text-center sm:text-left sm:grid-cols-3 gap-4"
+              class="grid grid-cols-1 mb-4 text-center sm:text-left sm:grid-cols-3 gap-4"
             >
               <!-- Hoy -->
               <div class="border border-green-500 p-4 rounded-lg bg-green-50">
@@ -241,105 +261,14 @@
             </div>
           </div>
         </div>
+        <div class="w-full bg-white rounded-lg shadow-lg p-3">
+          <canvas id="energy_consumption_chart"></canvas>
+          <p>{{emeter_monthly}}</p>
+        </div>
       </div>
     </div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const todayEnergyCosto = document.querySelector("#today_energy_cost");
-
-        const sevenDayEnergyCost = document.querySelector(
-          "#seven_day_energy_cost"
-        );
-
-        const thirtyDayEnergyCost = document.querySelector(
-          "#thirty_day_energy_cost"
-        );
-
-        const consumptionElement = document.getElementById(
-          "current-consumption"
-        );
-
-        const totalConsumption = document.querySelector("#total_consumption");
-
-        const averageSevenDayConsumption = document.querySelector(
-          "#average_seven_day_consumption"
-        );
-        const totalSevenDayConsumption = document.querySelector(
-          "#total_seven_day_consumption"
-        );
-
-        const averageThirtyDayConsumption = document.querySelector(
-          "#average_thirty_day_consumption"
-        );
-        const totalThirtyDayConsumption = document.querySelector(
-          "#total_thirty_day_consumption"
-        );
-
-        const currentUsage = document.querySelector("#current_usage");
-
-        const usageToday = document.querySelector("#total_usage_today");
-
-        const averageThirtyDayUsage = document.querySelector(
-          "#average_thirty_day_usage"
-        );
-
-        const totalSevenDayUsage = document.querySelector(
-          "#total_seven_day_usage"
-        );
-
-        const averageSevenDayUsage = document.querySelector(
-          "#average_seven_day_usage"
-        );
-
-        const totalThirtyDayUsage = document.querySelector(
-          "#total_thirty_day_usage"
-        );
-
-        const socket = new WebSocket(
-          "ws://" + window.location.host + "/ws/plug/"
-        );
-
-        socket.onmessage = function (e) {
-          const data = JSON.parse(e.data);
-
-          // Energy Cost
-
-          todayEnergyCosto.textContent = "C$ " + data.today_energy_cost;
-          sevenDayEnergyCost.textContent = "C$ " + data.seven_day_energy_cost;
-          thirtyDayEnergyCost.textContent = "C$ " + data.thirty_day_energy_cost;
-
-          // Energy Usage
-          consumptionElement.textContent = data.current_consumption + " W";
-          totalConsumption.textContent = data.total_consumption + " kWh";
-
-          averageSevenDayConsumption.textContent =
-            data.average_seven_day_consumption + " kWh";
-          totalSevenDayConsumption.textContent =
-            data.total_seven_day_consumption + " kWh";
-
-          averageThirtyDayConsumption.textContent =
-            data.average_thirty_day_consumption + " kWh";
-          totalThirtyDayConsumption.textContent =
-            data.total_thirty_day_consumption + " kWh";
-
-          // Execution time
-          currentUsage.textContent = data.current_usage + " horas";
-          usageToday.textContent = data.total_usage_today + " horas";
-          totalSevenDayUsage.textContent =
-            data.total_seven_day_usage + " horas";
-          averageSevenDayUsage.textContent =
-            data.average_seven_day_usage + " horas";
-          totalThirtyDayUsage.textContent =
-            data.total_thirty_day_usage + " horas";
-          averageThirtyDayUsage.textContent =
-            data.average_thirty_day_usage + " horas";
-        };
-
-        // socket.onclose = function (e) {
-        //   console.error("WebSocket closed unexpectedly");
-        // };
-      });
-    </script>
+    <script src="{% static 'js/socket.js' %}"></script>
+    <script src="{% static 'js/chart.js' %}"></script>
   </body>
 </html>

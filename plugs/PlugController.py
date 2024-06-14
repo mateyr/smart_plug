@@ -80,3 +80,10 @@ class PlugController():
             current_date += timedelta(days=1)
         total_usage = total_usage / 60
         return round(total_usage, 2)
+
+    # Historial
+    async def plug_emeter_monthly(self):
+        await self.update_plug()
+        emeter_monthly = await self.plug.get_emeter_monthly()
+
+        return emeter_monthly

@@ -7,10 +7,8 @@
 3. Clone the project
 4. Install the python-kasa library
 5. Change the device IP in the PlugController
-6. Verify changes in the library (These are not in this repo yet, pending a consultation with python-kasa)
-7. Start the server: 
+6. Start the server:
+
 ```
 py manage.py runserver, py manage.py tailwind start
 ```
-
-8. Some TODOs pending

@@ -1,11 +1,9 @@
-from django.shortcuts import render
-from plugs.PlugController import PlugController
 import asyncio
 
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
 
-# Create your views here.
-
-from django.http import HttpResponse
+from plugs.PlugController import PlugController
 
 
 def index(request):
@@ -39,3 +37,10 @@ def on(request):
         return render(request, 'plugs/index.html', {'message': 'Bulbs not responding', 'color': 'red'})
 
 
+def emeter_monthly(request):
+    try:
+        bc = PlugController()
+        emeter_monthly = asyncio.run(bc.plug_emeter_monthly())
+        return JsonResponse({'emeter_monthly': emeter_monthly})
+    except Exception as e:
+        return JsonResponse({'error': 'Bulbs not responding', 'details': str(e)}, status=500)
