@@ -23,6 +23,16 @@ class PlugController():
     async def update_plug(self):
         await self.plug.update()
 
+    async def general_info(self):
+        await self.plug.update()
+
+        alias = self.plug.alias
+        time = self.plug.time
+        model = self.plug.model
+        hw_version = self.plug.hw_info['hw_ver']
+
+        return {'alias': alias, 'device_time': time, 'model': model, 'hardware_version': hw_version}
+
     async def plug_off(self):
         await self.update_plug()
         await self.plug.turn_off()

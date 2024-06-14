@@ -10,4 +10,5 @@ urlpatterns = [
     path("off", views.off, name="off"),
     path("on", views.on, name="on"),
     path("emeter_monthly", views.emeter_monthly, name="emeter_monthly"),
+    path("general_info", views.general_info, name="general_info"),
 ]

@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const data = JSON.parse(e.data);
 
     // Energy Cost
-
     todayEnergyCosto.textContent = "C$ " + data.today_energy_cost;
     sevenDayEnergyCost.textContent = "C$ " + data.seven_day_energy_cost;
     thirtyDayEnergyCost.textContent = "C$ " + data.thirty_day_energy_cost;

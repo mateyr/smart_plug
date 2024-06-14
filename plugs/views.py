@@ -19,6 +19,15 @@ def controls(request):
     return render(request, 'plugs/index.html')
 
 
+def general_info(request):
+    try:
+        bc = PlugController()
+        general_info = asyncio.run(bc.general_info())
+        return JsonResponse({'general_info': general_info})
+    except Exception as e:
+        return JsonResponse({'error': 'Plug not responding', 'details': str(e)}, status=500)
+
+
 def off(request):
     try:
         bc = PlugController()
